@@ -1,26 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Toolbar from './Components/Toolbar/toolbar';
+import SideDrawer from './Components/My-hamburger/SideDrawer';
+import Backdrop from './Components/Backdrop/Backdrop';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+    constructor (props) {
+        super (props);
+        this.state = {
+            sideDrawerOpen: false
+        };
+    }
+
+
+    drawerToggleClickHandler = () => {
+        this.setState((prevState) => {
+            return {sideDrawerOpen: !prevState.sideDrawerOpen};
+        });
+    };
+
+    backdropClickHandler = () => {
+        this.setState({sideDrawerOpen: false});
+    };
+
+    render() {
+        let backDrop;
+
+        if (this.state.sideDrawerOpen) {
+            backDrop = <Backdrop click={this.backdropClickHandler}/>;
+        }
+        return (
+            <div style={{height: '100%'}}>
+                <Toolbar handleDrawerClick={this.drawerToggleClickHandler}/>
+                <SideDrawer action={this.state.sideDrawerOpen}/>
+                {backDrop}
+                <main style={{marginTop: '64px'}}/>
+                <p>My Page Content</p>
+            </div>
+        )
+    }
 }
 
 export default App;
